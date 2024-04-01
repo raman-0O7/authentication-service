@@ -19,6 +19,11 @@ export default auth((req) => {
   const isAuthRoute = AuthRoutes.includes(nextUrl.pathname);
 
   if(isApiRoute) {
+    console.log("Run"+ nextUrl.pathname);
+    if(nextUrl.pathname.startsWith("/api/auth/auth/login?error=OAuthAccountNotLinked")) {
+      console.log("Function started");
+      return Response.redirect(new URL("/auth/login?error=OAuthAccountNotLinked", nextUrl));
+    }
     return null;
   }
 
