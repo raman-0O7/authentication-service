@@ -9,7 +9,8 @@ export const PublicRoutes = [
 export const AuthRoutes = [
   "/auth/login",
   "/auth/register",
-  "/auth/error"
+  "/auth/error",
+  '/auth/reset'
 ];
 
 export const DEFAULT_REDIRECT_AFTER_LOGIN="/settings"
