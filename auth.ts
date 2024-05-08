@@ -4,6 +4,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "./lib/db";
 import { getUserById } from "./data/user";
 import { UserRole } from "@prisma/client";
+import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation";
 
 export const {
   handlers: { GET, POST },
@@ -32,6 +33,13 @@ export const {
       if(!existingUser?.emailVerified) {
         return false;
       }
+
+      if(existingUser.twoFactorEnabled) {
+        const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
+        if(!twoFactorConfirmation) {
+          return false;
+        }
+      }
       return true;
     },
     async session({ token, session }) {
@@ -41,7 +49,7 @@ export const {
       if(token.role && session.user) {
         session.user.role = token.role as UserRole;
       }
-      console.log({ sesssionToken : token})
+      // console.log({ sesssionToken : token})
       return session;
     },
     async jwt({ token }) {

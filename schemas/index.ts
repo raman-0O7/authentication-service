@@ -6,7 +6,8 @@ export const LoginSchema = z.object({
   }),
   password : z.string().min(1, {
     message: "Password must have atleast 1 character"
-  })
+  }),
+  code : z.optional(z.string())
 });
 
 export const ResetSchema = z.object({
